@@ -41,9 +41,6 @@ test
 templates
 temp
 
-/src/auto-reports/email-sender.ts
-/src/auto-reports/config.ts
-/src/auto-reports/app.ts
-/src/auto-reports/drivers/transactions.ts
-/src/auto-reports/drivers/
-/build/
+# Build directory
+dist
+build2
