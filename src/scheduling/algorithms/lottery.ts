@@ -1,8 +1,8 @@
-import { Scheduler }     from "../../index"
-import { ProcessStates } from "../../../process"
-import { wait, TM }      from "../../../utilities"
-import { ProcessTable }  from "../../../process-table"
-import { EventBus }      from "../../../event-bus"
+import { Scheduler }     from "../index"
+import { ProcessStates } from "../../process"
+import { wait, TM }      from "../../utilities"
+import { ProcessTable }  from "../../process-table"
+import { EventBus }      from "../../event-bus"
 
 
 export class LotteryScheduler extends Scheduler {
@@ -20,7 +20,7 @@ export class LotteryScheduler extends Scheduler {
 		this.lotterySize = this.processTable.getCount(ProcessStates.Waiting)
 		this.tickets = Array.from({ length: this.lotterySize }, (_, i) => i + 1)
 		this.processTickets = this.processTable.getAll().map((process) => process.pid)
-1
+		1
 		// External events
 		this.onIOResponse()
 		this.onNewProcess()

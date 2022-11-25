@@ -1,8 +1,8 @@
-import { Scheduler }              from "../../index"
-import { ProcessStates, Process } from "../../../process"
-import { wait, TM }               from "../../../utilities"
-import { ProcessTable }           from "../../../process-table"
-import { EventBus }               from "../../../event-bus"
+import { Scheduler }              from "../index"
+import { ProcessStates, Process } from "../../process"
+import { wait, TM }               from "../../utilities"
+import { ProcessTable }           from "../../process-table"
+import { EventBus }               from "../../event-bus"
 
 
 export class MultilevelScheduler extends Scheduler {

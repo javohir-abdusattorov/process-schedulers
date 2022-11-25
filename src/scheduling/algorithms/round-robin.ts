@@ -1,21 +1,21 @@
-import { Scheduler }              from "../../index"
-import { ProcessStates, Process } from "../../../process"
-import { wait, TM }               from "../../../utilities"
-import { ProcessTable }           from "../../../process-table"
-import { EventBus }               from "../../../event-bus"
+import { Scheduler }     from "../index"
+import { ProcessStates } from "../../process"
+import { wait, TM }      from "../../utilities"
+import { ProcessTable }  from "../../process-table"
+import { EventBus }      from "../../event-bus"
 
 
-export class PriorityScheduler extends Scheduler {
+export class RoundRobinScheduler extends Scheduler {
 	private queue: number[] = [] // All processes PIDs by order
 
 	constructor(
-		private processTable: ProcessTable
+		private processTable: ProcessTable,
 	) {
 		super(processTable)
 	}
 
 	public async run(): Promise<void> {
-		this.reOrderByPriority()
+		this.queue = this.processTable.getAll().map((process) => process.pid)
 
 		// External events
 		this.onIOResponse()
@@ -27,8 +27,6 @@ export class PriorityScheduler extends Scheduler {
 				await wait(TM)
 				continue
 			}
-
-			this.reOrderByPriority()
 
 			this.current = this.queue[0]
 			const currentProcess = this.processTable.getByPID(this.current)
@@ -44,9 +42,9 @@ export class PriorityScheduler extends Scheduler {
 
 			// Wait for its quantum to finish
 			await Promise.race([
+				this.waitForProcessQuantum(currentProcess),
 				this.waitForProcessToBlock(currentProcess),
 				this.waitForProcessToComplete(currentProcess),
-				this.waitForNewProcess(currentProcess)
 			])
 
 			// Stop process and insert it at the end of the queue
@@ -58,17 +56,8 @@ export class PriorityScheduler extends Scheduler {
 	}
 
 	private onNewProcess(): void {
-		// EventBus.on("process:new", (pid) => {
-		// })
-	}
-
-	private async waitForNewProcess( process: Process ): Promise<void> {
-		return new Promise<void>((done) => {
-			EventBus.once("process:new", (pid: number) => {
-				const newProcess = this.processesTable.getByPID(pid)
-				const isHigherPriority = Boolean(newProcess.additional.priority > process.additional.priority)
-				if (isHigherPriority) done()
-			})
+		EventBus.on("process:new", (pid) => {
+			this.queue.push(pid)
 		})
 	}
 
@@ -82,17 +71,5 @@ export class PriorityScheduler extends Scheduler {
 
 		this.queue.shift()
 		this.queue.push(currentProcessPID)
-	}
-
-	private reOrderByPriority(): void {
-		this.queue = this.processTable.getAll()
-			.sort((a, b) => {
-				if (a.state !== ProcessStates.Waiting) return 1
-				if (b.state !== ProcessStates.Waiting) return -1
-				return a.additional.priority - b.additional.priority || a.additional.burstTime - a.additional.burstTime
-			})
-			.map((process) => {
-				return process.pid
-			})
 	}
 }

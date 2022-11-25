@@ -1,7 +1,7 @@
-import { Scheduler }     from "../../index"
-import { ProcessStates } from "../../../process"
-import { wait, TM }      from "../../../utilities"
-import { ProcessTable }  from "../../../process-table"
+import { Scheduler }     from "../index"
+import { ProcessStates } from "../../process"
+import { wait, TM }      from "../../utilities"
+import { ProcessTable }  from "../../process-table"
 
 
 export class ShortestProcessScheduler extends Scheduler {
