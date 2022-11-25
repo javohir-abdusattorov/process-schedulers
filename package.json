@@ -1,17 +1,25 @@
 {
-  "name": "schedulers",
-  "version": "1.0.0",
-  "description": "Various operating system scheduler implementations",
-  "main": "index.js",
-  "dependencies": {},
-  "devDependencies": {},
-  "scripts": {
-    "build": "node_modules/.bin/tsc"
-  },
-  "keywords": [],
-  "author": {
-    "name": "Javohir Abdusattorov",
-    "email": "javohirabdusattorov2005@gmail.com"
-  },
-  "license": "ISC"
+    "name": "schedulers",
+    "version": "1.0.0",
+    "description": "Various operating system scheduler implementations",
+    "main": "index.js",
+    "dependencies": {
+        "del-cli": "3.0.1",
+        "reflect-metadata": "0.1.13",
+        "tslib": "1.14.1",
+        "typescript": "4.5.4"
+    },
+    "devDependencies": {
+        "@types/node": "14.17.0",
+        "source-map-support": "*"
+    },
+    "scripts": {
+        "build": "node_modules/.bin/tsc"
+    },
+    "keywords": [],
+    "author": {
+        "name": "Javohir Abdusattorov",
+        "email": "javohirabdusattorov2005@gmail.com"
+    },
+    "license": "ISC"
 }
