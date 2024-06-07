@@ -1,7 +1,7 @@
 import { IO }                from "./io"
 import { Process }           from "./process"
 import { Scheduler }         from "./scheduling"
-import { PriorityScheduler } from "./scheduling/algorithms"
+import { PriorityScheduler } from "./scheduling"
 import { ProcessTable }      from "./process-table"
 import { TM }                from "./utilities"
 
